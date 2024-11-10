@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
-import { images } from '../images/images.js';
+import { images } from '../app/images/images.js';
 
 
 export const Header = () => {
