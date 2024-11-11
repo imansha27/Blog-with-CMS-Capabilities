@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
 
@@ -15,10 +15,12 @@ export default function Home() {
     e.preventDefault();
 
     // Basic validation
-    if (!username || !password) {
-      alert ("Both username and password are required");
+    if (!username || !email) {
+      alert ("Both username and email are required");
       return;
     }
+
+  
 
     // Implement authentication 
     const response = await fetch("/api/auth/login", {
@@ -26,18 +28,24 @@ export default function Home() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ username, email }),
     });
 
     const data = await response.json();
 
     if (data.success) {
-      console.log(data);
-      // Redirect to the dashboard or home page upon successful login
+      
+        const data = await response.json();
+        const token =data.data.token;
+        localStorage.setItem('token', token);
+        console.log(data.data.token);
+
+        alert('Login successful!');
       router.push("/dashboard");
+
     } else {
       // Show error if authentication fails
-      setError(data.message || "Login failed. Please try again.");
+      alert (data.message || "Login failed. Please try again.");
    
     }
   }
@@ -49,8 +57,7 @@ export default function Home() {
         <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
           <h2 className="text-2xl font-bold text-center text-gray-800">Login</h2>
 
-          {/* Show error message if exists */}
-          {error && <div className="text-red-500 text-sm text-center">{error}</div>}
+         
 
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
@@ -71,15 +78,15 @@ export default function Home() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Password
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                Email
               </label>
               <input
-                type="password"
-                id="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
             </div>
@@ -96,7 +103,7 @@ export default function Home() {
             <div className="text-center">
               <p className="text-sm text-gray-500">
                 Don't have an account?{" "}
-                <a href="/signup" className="font-medium text-indigo-600 hover:text-indigo-500">
+                <a href="/blogpage" className="font-medium text-indigo-600 hover:text-indigo-500">
                   Sign Up
                 </a>
               </p>

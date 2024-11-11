@@ -10,6 +10,7 @@ export default NextAuth.default({
         email: { label: "Email", type: "text" },
         name: { label: "Username", type: "text" },
       },
+      
       async authorize(credentials) {
         const { email } = credentials;
 
@@ -21,6 +22,7 @@ export default NextAuth.default({
 
         if (user) {
           // Return user data if found
+         // res.status(200).json({ success: true });
           return {
             id: user.id,
             name: user.name,
@@ -28,7 +30,7 @@ export default NextAuth.default({
             role: user.role,
           };
         } else {
-          throw new Error("User not found");
+         // return res.status(401).json({ success: false, message: "Invalid username or password" });
         }
       },
     }),
@@ -59,4 +61,4 @@ export default NextAuth.default({
   pages: {
     signIn: "/auth/signin",
   },
-});
+})
