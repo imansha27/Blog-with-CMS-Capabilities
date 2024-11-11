@@ -1,20 +1,20 @@
 import sqlite3 from 'sqlite3';
 import { open } from 'sqlite';
 
-
 let db;
 
 const connectdata = async () => {
-    if (db) return db;
+  if (db) return db;
 
-    db = await open({
-        filename: './data/database.sqlite',
-        driver: sqlite3.Database,
-    });
-    return db;
+  db = await open({
+    filename: './data/database.sqlite',
+    driver: sqlite3.Database,
+  });
+  return db;
 };
 
-export default connectdata; 
+export default connectdata;
+
 
 // Create a new user
 export const usersignup = async (name, email, role = 'user') => {
