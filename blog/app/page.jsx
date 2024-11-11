@@ -56,7 +56,7 @@ focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           <div className="text-center">
 
             <p className="text-sm text-gray-500">
-              Don't have an account? <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">Sign Up</a>
+              Don't have an account? <a href="/signup" className="font-medium text-indigo-600 hover:text-indigo-500">Sign Up</a>
             </p>
           </div>
         </form>

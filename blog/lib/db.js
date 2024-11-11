@@ -1,17 +1,43 @@
 import sqlite3 from 'sqlite3';
-import{open} from 'sqlite';
+import { open } from 'sqlite';
 
 let db;
 
-const connectdata = async () => {
-    if(db) return db;
+export const connectdata = async () => {
+    if (db) return db;
 
-    db= await open({
-        filename: '../data/database.sqlite',
-        driver:sqlite3.Database,
+    db = await open({
+        filename: './data/database.sqlite',
+        driver: sqlite3.Database,
     });
     return db;
 };
+
+// Create a new user
+export const usersignup = async (name, email, role = 'user') => {
+    const db = await connectdata();
+
+    try {
+      const existinguser = await db.get(`SELECT * FROM users WHERE email=?`,[email]);
+    if(existinguser){
+        throw new Error("Email already exists");
+    }
+    const result = await db.run(
+        `INSERT INTO users (name, email, role) VALUES (?, ?, ?)`,
+        [name, email, role] 
+    );
+    return result.lastID;
+
+    } 
+    
+    catch (error) {
+        console.error("Error inserting user:", error);
+        throw error; 
+    } 
+};
+
+
+
 
 //get all posts
 
@@ -26,7 +52,7 @@ export const getPost = async () =>{
         WHERE posts.status ="approved"
         ORDER BY posts.created_at DESC`);
 
-        return posts;
+        return posts.rows;
 };
 
 //get one post
@@ -69,4 +95,13 @@ export const delOnepost = async (id) => {
 export const updatestatus=async(id,status)=>{
     const db =await connectdata();
     await db.run(`UPDATE post SET status =? WHERE id=?`, status,id);
+};
+
+
+// Function to get all users
+export const getAllUsers = async () => {
+    const db = await connectdata();
+    const users = await db.all('SELECT * FROM users');  
+    console.log(users)
+    return users;
 };

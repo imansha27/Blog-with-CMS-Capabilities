@@ -1,5 +1,5 @@
 import{getSession} from "next-auth/react";
-import { getPost,getOnepost,createpost,delOnepost,updatestatus, delOnepost} from "../../lib/db";
+import { getPost,getOnepost,createpost,delOnepost,updatestatus} from "../../lib/db";
 
 export default async function handler(req,res){
     const session =await getSession({req});
