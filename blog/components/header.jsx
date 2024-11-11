@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 import { images } from '../app/images/images.js';
+import Link from 'next/link';
 
 
 export const Header = () => {
@@ -10,9 +11,11 @@ export const Header = () => {
                 {/* <Image src={images.logo} width={180} alt="logo" className='w-[130px] sm:w-auto'></Image> */}
                 <div className="flex-grow"></div>
                 <div className="flex space-x-10 text-rose-800 ml-auto">
-          <span className="text-lg font-semibold cursor-pointer">Homepage</span>
-          <span className="text-lg font-semibold cursor-pointer">Dashboard</span>
-          <span className="text-lg font-semibold cursor-pointer">Profile</span>
+                <Link href="./dashboard">
+                <span className="text-lg font-semibold cursor-pointer">BLOG</span>
+                </Link>
+          <span className="text-lg font-semibold cursor-pointer">DASHBOARD</span>
+          <span className="text-lg font-semibold cursor-pointer">ABOUT</span>
         </div>
             </div>
         </div>
