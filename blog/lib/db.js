@@ -22,11 +22,12 @@ export const getPost = async () =>{
         posts.title,
         user.username
         FROM posts
-        JOIN users ON posts.authotID = users.id
+        JOIN users ON posts.authotId = users.id
         WHERE posts.status ="approved"
         ORDER BY posts.created_at DESC`);
 
-}
+        return posts;
+};
 
 //get one post
 
@@ -40,13 +41,15 @@ export const getOnepost = async (id) => {
 
 //create a new post
 
-export const createpost = async(title,content,snippet,authorId, status = 'pending') =>{
+export const createpost = async(title,content,authorId, status = 'pending') =>{
     const db =await connectdata();
     const result =await db.run(
-        `INSERT INTO post (title,content,authorId,status)`
-    )
+        `INSERT INTO post (title,content,authorId,status)
+        VALUES(?,?,?,?,?)`
+        ,title,content,authorId,status
+    );
     return result.lastID;
-}
+};
 
 
 
@@ -54,9 +57,9 @@ export const createpost = async(title,content,snippet,authorId, status = 'pendin
 
 export const delOnepost = async (id) => {
     const db = await connectdata();
-    const post = await db.get(`DELETE
+    await db.run (`DELETE
         FROM posts WHERE id =?, id`);
-    return post;
+ 
 };
 
 

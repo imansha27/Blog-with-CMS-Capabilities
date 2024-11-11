@@ -16,6 +16,9 @@ export const Header = () => {
                 </Link>
           <span className="text-lg font-semibold cursor-pointer">DASHBOARD</span>
           <span className="text-lg font-semibold cursor-pointer">ABOUT</span>
+          <Link href="./page">
+                <span className="text-lg font-semibold cursor-pointer">LOGOUT</span>
+                </Link>
         </div>
             </div>
         </div>
