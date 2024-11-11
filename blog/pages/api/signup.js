@@ -17,7 +17,7 @@ export default async function handler(req, res) {
         res.status(201).json({ message: "User created successfully", userId });
       
     } catch (error) {
-        if(error.message === "Email already existss"){
+        if(error.message === "Email already exists"){
             res.status(409).json({message:"This Email Already exsists"})
         }else{
             res.status(500).json({ message: "Error creating user", error: error.message });

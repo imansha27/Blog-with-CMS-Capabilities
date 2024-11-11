@@ -30,6 +30,7 @@ export default function SignUp() {
         alert(data.error);
       } else {
         // Redirect user to the login page after signup
+        alert("Registered Successfully");
         router.push('/');
       }
     } catch (err) {

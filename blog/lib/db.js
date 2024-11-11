@@ -1,9 +1,10 @@
 import sqlite3 from 'sqlite3';
 import { open } from 'sqlite';
 
+
 let db;
 
-export const connectdata = async () => {
+const connectdata = async () => {
     if (db) return db;
 
     db = await open({
@@ -12,6 +13,8 @@ export const connectdata = async () => {
     });
     return db;
 };
+
+export default connectdata; 
 
 // Create a new user
 export const usersignup = async (name, email, role = 'user') => {
