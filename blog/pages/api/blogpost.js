@@ -1,28 +1,40 @@
 //import{getSession} from "next-auth/react";
-import { getPost, getOnepost, createpost, delOnepost, updatestatus } from "../../lib/db";
+import { getPost, getOnepost, createpost, delOnepost, usergetPost } from "../../lib/db";
 
 export default async function handler(req, res) {
     //const session =await getSession({req});
     //if(!session) return res.status(401).json({error:"Unauthorized"});
 
     switch (req.method) {
-        //get a requested post by id
         case "GET":
             if (req.query.id) {
+                // Get a specific post by ID
                 const post = await getOnepost(req.query.id);
                 if (!post) return res.status(404).json({ error: "No post found" });
-                res.json(post)
-            } else {
-                //get all the posts
-                const posts = await getPost();
-                console.log(posts)
+                res.json(post);
+
+            } else if (req.query.userId) {
+                // Get all posts by a specific user
+                const posts = await usergetPost(req.query.userId); // Ensure user ID is passed if needed
+                console.log(posts);
                 if (!posts || posts.length === 0) {
                     return res.status(404).json({ error: "No posts available" });
                 }
                 res.json(posts);
 
+            } else {
+                // Get all posts
+                const posts = await getPost();
+                console.log(posts);
+                if (!posts || posts.length === 0) {
+                    return res.status(404).json({ error: "No posts available" });
+                }
+                res.json(posts);
             }
             break;
+
+
+    
 
         //create a new post
         case "POST":

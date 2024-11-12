@@ -1,4 +1,4 @@
-import { AgetPost, getOnepost, createpost, delOnepost, updatestatus } from "../../lib/db";
+import { AgetPost, getOnepost, updatestatus } from "../../lib/db";
 
 export default async function handler(req, res) {
     
