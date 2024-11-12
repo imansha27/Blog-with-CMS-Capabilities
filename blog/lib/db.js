@@ -113,8 +113,7 @@ export const usergetPost = async (userId) => {
 
 export const getOnepost = async (id) => {
     const db = await connectdata();
-    const post = await db.get(`SELECT
-        * FROM posts WHERE id =?, id`);
+    const post = await db.get(`SELECT * FROM posts WHERE id = ?`, [id]);
     return post;
 };
 
