@@ -77,8 +77,8 @@ export default function SignUp() {
           <div>
             <button
               type="submit"
-              className="w-full py-3 px-4 text-sm font-medium text-white bg-indigo-600 rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            >
+              className="w-3 flex justify-end py-3 px-4 text-sm font-medium text-white bg-indigo-600 rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
               Sign Up
             </button>
           </div>
@@ -86,7 +86,7 @@ export default function SignUp() {
           <div className="text-center">
             <p className="text-sm text-gray-500">
               Already have an account?{' '}
-              <a href="/user/blogpage" className="font-medium text-indigo-600 hover:text-indigo-500">
+              <a href="/" className="font-medium text-indigo-600 hover:text-indigo-500">
                 Login here
               </a>
             </p>
