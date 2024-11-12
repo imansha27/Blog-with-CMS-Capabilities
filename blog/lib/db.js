@@ -48,21 +48,66 @@ export const usersignup = async (name, email, role = 'user') => {
 
 
 
-//get all posts
+//get all posts users
 
-export const getPost = async () =>{
+export const getPost = async () => {
     const db = await connectdata();
-    const posts = await db.all(`SELECT 
+    const posts = await db.all(`
+        SELECT 
+            posts.id,
+            posts.title,
+            posts.content,
+            posts.authorId,
+            users.name AS authorName
+        FROM posts
+        JOIN users ON posts.authorId = users.id
+        WHERE posts.status = "pending"
+        ORDER BY posts.created_at DESC
+    `);
+
+    return posts;
+};
+
+
+//get all posts for admin side
+
+export const AgetPost = async () => {
+    const db = await connectdata();
+    const posts = await db.all(`
+        SELECT 
+            posts.id,
+            posts.title,
+            posts.content,
+            posts.authorId,
+            users.name AS authorName
+        FROM posts
+        JOIN users ON posts.authorId = users.id
+        ORDER BY posts.created_at DESC
+    `);
+
+    return posts;
+};
+
+
+// get all posts of a user
+export const usergetPost = async (userId) => {
+    const db = await connectdata();
+    const posts = await db.all(`
+      SELECT 
         posts.id,
         posts.title,
-        user.username
-        FROM posts
-        JOIN users ON posts.authotId = users.id
-        WHERE posts.status ="approved"
-        ORDER BY posts.created_at DESC`);
+        posts.content,
+        posts.authorId,
+        users.name AS authorName
+      FROM posts
+      JOIN users ON posts.authorId = users.id
+      WHERE posts.authorId = ?
+      ORDER BY posts.created_at DESC
+    `, [userId]);
+  
+    return posts;
+  };
 
-        return posts.rows;
-};
 
 //get one post
 
@@ -79,8 +124,8 @@ export const getOnepost = async (id) => {
 export const createpost = async(title,content,authorId, status = 'pending') =>{
     const db =await connectdata();
     const result =await db.run(
-        `INSERT INTO post (title,content,authorId,status)
-        VALUES(?,?,?,?,?)`
+        `INSERT INTO posts (title,content,authorId,status)
+        VALUES(?,?,?,?)`
         ,title,content,authorId,status
     );
     return result.lastID;

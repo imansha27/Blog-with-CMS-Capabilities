@@ -1,9 +1,7 @@
-//import{getSession} from "next-auth/react";
-import { getPost, getOnepost, createpost, delOnepost, updatestatus } from "../../lib/db";
+import { AgetPost, getOnepost, createpost, delOnepost, updatestatus } from "../../lib/db";
 
 export default async function handler(req, res) {
-    //const session =await getSession({req});
-    //if(!session) return res.status(401).json({error:"Unauthorized"});
+    
 
     switch (req.method) {
         //get a requested post by id
@@ -14,7 +12,7 @@ export default async function handler(req, res) {
                 res.json(post)
             } else {
                 //get all the posts
-                const posts = await getPost();
+                const posts = await AgetPost();
                 console.log(posts)
                 if (!posts || posts.length === 0) {
                     return res.status(404).json({ error: "No posts available" });
@@ -24,20 +22,12 @@ export default async function handler(req, res) {
             }
             break;
 
-        //create a new post
-        case "POST":
-            //if(session.user.role !=="user") return res.status(403).json({error:"Forbidden"});
-            const { title, content, authorId } = req.body;
-            const postId = await createpost(title, content, authorId);
-            res.status(201).json({ message: "Post created!", postId });
-            break;
-
-        //delete a post
-        case "DELETE":
+        // approve a reject a post 
+        case "PUT":
             //if(session.user.role !=="admin") return res.status(403).json({error:"Forbidden"});
-            const postdelete = req.body.id;
-            await delOnepost(postdelete);
-            res.status(201).json({ message: "Post deleted!" });
+            const { id, status } = req.body;
+            await updatestatus(id, status);
+            res.status(201).json({ message: "Status updated!" });
             break;
 
         default:
