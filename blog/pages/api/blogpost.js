@@ -1,9 +1,9 @@
-import{getSession} from "next-auth/react";
+//import{getSession} from "next-auth/react";
 import { getPost,getOnepost,createpost,delOnepost,updatestatus} from "../../lib/db";
 
 export default async function handler(req,res){
-    const session =await getSession({req});
-    if(!session) return res.status(401).json({error:"Unauthorized"});
+    //const session =await getSession({req});
+    //if(!session) return res.status(401).json({error:"Unauthorized"});
 
     switch (req.method) {
         //get a requested post by id
@@ -26,6 +26,7 @@ export default async function handler(req,res){
             const postId = await createpost(title,content,session.user.id);
             res.status(201).json({message:"Post created!",postId});
             break;
+            
         // approve a reject a post 
         case "PUT":
             if(session.user.role !=="admin") return res.status(403).json({error:"Forbidden"});

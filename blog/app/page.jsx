@@ -3,11 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-
 export default function Home() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
   const router = useRouter();
 
   // Handle form submission
@@ -16,13 +14,11 @@ export default function Home() {
 
     // Basic validation
     if (!username || !email) {
-      alert ("Both username and email are required");
+      alert("Both username and email are required");
       return;
     }
 
-  
-
-    // Implement authentication 
+    // Send username and email to the server
     const response = await fetch("/api/auth/login", {
       method: "POST",
       headers: {
@@ -34,30 +30,32 @@ export default function Home() {
     const data = await response.json();
 
     if (data.success) {
-      
-        const data = await response.json();
-        const token =data.data.token;
-        localStorage.setItem('token', token);
-        console.log(data.data.token);
+      // Store token in localStorage
+      console.log("Token:", data);
+      const token = data;
+    
+      localStorage.setItem("token", JSON.stringify(token)); // Store the token as a string
+    
+      alert("Login successful!");
+    
+      // Check the role in the token to decide where to forward the user
+      if (token.user.role === "admin") {
+        // Redirect to the admin dashboard
+        router.push("/admin/adashboard");
 
-        alert('Login successful!');
-      router.push("/dashboard");
-
-    } else {
-      // Show error if authentication fails
-      alert (data.message || "Login failed. Please try again.");
-   
+      } else if (token.user.role === "user") {
+        // Redirect to the user dashboard
+        router.push("/user/blogpage");
+      }
     }
-  }
+    
+  };
 
   return (
     <>
-     
       <div className="container mx-auto min-h-screen flex items-center bg-cyan-100 justify-center">
         <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
           <h2 className="text-2xl font-bold text-center text-gray-800">Login</h2>
-
-         
 
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
@@ -103,7 +101,7 @@ export default function Home() {
             <div className="text-center">
               <p className="text-sm text-gray-500">
                 Don't have an account?{" "}
-                <a href="/blogpage" className="font-medium text-indigo-600 hover:text-indigo-500">
+                <a href="/user/blogpage" className="font-medium text-indigo-600 hover:text-indigo-500">
                   Sign Up
                 </a>
               </p>
@@ -111,7 +109,6 @@ export default function Home() {
           </form>
         </div>
       </div>
-     
     </>
   );
 }
