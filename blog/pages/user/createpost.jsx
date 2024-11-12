@@ -7,31 +7,47 @@ import { useRouter } from 'next/router';
 const CreatePost = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  
   const router = useRouter();
 
   // Function to handle form submission (Save button)
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
-    
+
     // Retrieve the token from localStorage and parse it
     const token = localStorage.getItem("token");
     if (token) {
       const parsedToken = JSON.parse(token);
-      const authorId = parsedToken.user.id; 
+      const authorId = parsedToken.user.id; // Extract authorId from the token
 
       if (title && content) {
-       
-        const postData = {
-          title,
-          content,
-          authorId,  // Include authorId in the post data
-        };
-        console.log("Post saved:", postData);
-        alert("The post was saved Successfully!")
-        
-        // Optionally, redirect after saving the post
-        // router.push('/user/dashboard');
+        try {
+          // Send a POST request to the API route to save the post
+          const response = await fetch('/api/blogpost', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              title,
+              content,
+              authorId,  
+            }),
+          });
+
+          const result = await response.json();
+
+          if (response.ok) {
+            console.log("Post saved with ID:", result.postId);
+            alert("The post was saved successfully!");
+           router.push('/user/dashboard'); 
+          } else {
+            alert(result.message || "Failed to save the post.");
+          }
+
+        } catch (error) {
+          console.error("Error saving post:", error);
+          alert("There was an error saving the post. Please try again.");
+        }
       } else {
         alert("Please fill out both title and content.");
       }
