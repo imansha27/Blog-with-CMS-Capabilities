@@ -33,7 +33,7 @@ export const Header = () => {
                     </span>
                     <span 
                         className="text-lg font-semibold cursor-pointer"
-                        onClick={() => handleNavigation('blog/app/page')}
+                        onClick={() => handleNavigation('/')}
                     >
                         LOGOUT
                     </span>

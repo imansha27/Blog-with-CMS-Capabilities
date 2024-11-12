@@ -75,10 +75,10 @@ export default function SignUp() {
           {error && <div className="text-red-500 text-sm">{error}</div>}
 
           <div>
-            <button
-              type="submit"
-              className="w-3 flex justify-end py-3 px-4 text-sm font-medium text-white bg-indigo-600 rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-        >
+          <button
+                type="submit"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
               Sign Up
             </button>
           </div>

@@ -4,13 +4,13 @@ import { open } from 'sqlite';
 let db;
 
 const connectdata = async () => {
-  if (db) return db;
+    if (db) return db;
 
-  db = await open({
-    filename: './data/database.sqlite',
-    driver: sqlite3.Database,
-  });
-  return db;
+    db = await open({
+        filename: './data/database.sqlite',
+        driver: sqlite3.Database,
+    });
+    return db;
 };
 
 export default connectdata;
@@ -21,28 +21,28 @@ export const usersignup = async (name, email, role = 'user') => {
     const db = await connectdata();
 
     try {
-      const existinguser = await db.get(`SELECT * FROM users WHERE email=?`,[email]);
-    if(existinguser){
-        return ({
-            success: false,
-            message: "Email Already exsists!"
-        });
-    }
-    const result = await db.run(
-        `INSERT INTO users (name, email, role) VALUES (?, ?, ?)`,
-        [name, email, role] 
-    );
-    return {
-        success: true,
-        userId: result.lastID,
-    };
+        const existinguser = await db.get(`SELECT * FROM users WHERE email=?`, [email]);
+        if (existinguser) {
+            return ({
+                success: false,
+                message: "Email Already exsists!"
+            });
+        }
+        const result = await db.run(
+            `INSERT INTO users (name, email, role) VALUES (?, ?, ?)`,
+            [name, email, role]
+        );
+        return {
+            success: true,
+            userId: result.lastID,
+        };
 
-    } 
-    
+    }
+
     catch (error) {
         console.error("Error inserting user:", error);
-        throw error; 
-    } 
+        throw error;
+    }
 };
 
 
@@ -60,8 +60,7 @@ export const getPost = async () => {
             posts.authorId,
             users.name AS authorName
         FROM posts
-        JOIN users ON posts.authorId = users.id
-        WHERE posts.status = "pending"
+        JOIN users ON posts.authorId = users.idWHERE posts.status = "pending" OR posts.status = "rejected"
         ORDER BY posts.created_at DESC
     `);
 
@@ -82,6 +81,7 @@ export const AgetPost = async () => {
             users.name AS authorName
         FROM posts
         JOIN users ON posts.authorId = users.id
+         WHERE posts.status = "pending"
         ORDER BY posts.created_at DESC
     `);
 
@@ -97,6 +97,7 @@ export const usergetPost = async (userId) => {
         posts.id,
         posts.title,
         posts.content,
+        posts.status,
         posts.authorId,
         users.name AS authorName
       FROM posts
@@ -104,9 +105,9 @@ export const usergetPost = async (userId) => {
       WHERE posts.authorId = ?
       ORDER BY posts.created_at DESC
     `, [userId]);
-  
+
     return posts;
-  };
+};
 
 
 //get one post
@@ -120,12 +121,12 @@ export const getOnepost = async (id) => {
 
 //create a new post
 
-export const createpost = async(title,content,authorId, status = 'pending') =>{
-    const db =await connectdata();
-    const result =await db.run(
+export const createpost = async (title, content, authorId, status = 'pending') => {
+    const db = await connectdata();
+    const result = await db.run(
         `INSERT INTO posts (title,content,authorId,status)
         VALUES(?,?,?,?)`
-        ,title,content,authorId,status
+        , title, content, authorId, status
     );
     return result.lastID;
 };
@@ -136,25 +137,24 @@ export const createpost = async(title,content,authorId, status = 'pending') =>{
 
 export const delOnepost = async (id) => {
     const db = await connectdata();
-    await db.run (`DELETE
-        FROM posts WHERE id =?, id`);
- 
+    await db.run(`DELETE FROM posts WHERE id = ?`, id);
+
 };
 
 
 
 // update post status
 
-export const updatestatus=async(id,status)=>{
-    const db =await connectdata();
-    await db.run(`UPDATE post SET status =? WHERE id=?`, status,id);
+export const updatestatus = async (id, status) => {
+    const db = await connectdata();
+    await db.run(`UPDATE posts SET status =? WHERE id=?`, status, id);
 };
 
 
 // Function to get all users
 export const getAllUsers = async () => {
     const db = await connectdata();
-    const users = await db.all('SELECT * FROM users');  
+    const users = await db.all('SELECT * FROM users');
     console.log(users)
     return users;
 };
