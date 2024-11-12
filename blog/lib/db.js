@@ -160,3 +160,20 @@ export const getAllUsers = async () => {
     console.log(users)
     return users;
 };
+
+
+//edit posts
+
+export async function updatePost(id, { title, content }) {
+    const db = await connectdata();
+    
+    const statement = await db.run(
+      `UPDATE posts SET title = ?, content = ? WHERE id = ?`,
+      [title, content, id]
+    );
+  
+    return statement.changes > 0; 
+  }
+  
+ 
+  

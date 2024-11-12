@@ -1,5 +1,5 @@
 //import{getSession} from "next-auth/react";
-import { getPost, getOnepost, createpost, delOnepost, usergetPost } from "../../lib/db";
+import { getPost, getOnepost, createpost, delOnepost, usergetPost,updatePost } from "../../lib/db";
 
 export default async function handler(req, res) {
     //const session =await getSession({req});
@@ -51,6 +51,16 @@ export default async function handler(req, res) {
             await delOnepost(postdelete);
             res.status(201).json({ message: "Post deleted!" });
             break;
+
+
+        case 'PUT':
+            const postedit =req.body.postId;
+            await updatePost(req, res);
+            res.status(201).json({ message: "Post edited!" });
+            break;
+          
+        
+
 
         default:
             res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);

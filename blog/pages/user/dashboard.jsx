@@ -14,6 +14,11 @@ const Dashboard = () => {
     
   };
 
+  const navigateToEdit = (postId) => {
+    // Navigate to the ReadPost page with the post ID
+    router.push(`/user/Editpost/${postId}`);
+  };
+
   // Fetch user posts based on userId
   useEffect(() => {
 
@@ -96,7 +101,10 @@ const Dashboard = () => {
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{post.status}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{post.authorName}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  <button className="text-blue-500 hover:text-blue-700 mr-4">Edit</button>
+
+                  <button   onClick={() => navigateToEdit(post.id)} 
+                  className="text-blue-500 hover:text-blue-700 mr-4">
+                    Edit</button>
                   <button 
                     onClick={() => handleDelete(post.id)} 
                     className="text-red-500 hover:text-red-700">

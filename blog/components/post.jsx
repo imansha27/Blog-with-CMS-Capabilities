@@ -26,7 +26,7 @@ const Post = ({ post }) => {
       
         <button
          onClick={() => navigateToPost(post.id)} 
-          className=" bg-slate-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-all duration-300"
+          className=" bg-slate-500 text-white py-2 rounded-lg hover:bg-slate-200 transition-all m-10 duration-300"
         
         >
           Read More
