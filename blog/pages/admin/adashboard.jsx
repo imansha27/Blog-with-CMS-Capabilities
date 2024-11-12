@@ -69,7 +69,7 @@ const handleapprove = async (postId) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ id: postId, status: 'Approve' }), 
+      body: JSON.stringify({ id: postId, status: 'approved' }), 
     });
 
     if (response.ok) {
@@ -88,10 +88,24 @@ const handleapprove = async (postId) => {
 };
 
 
+
+const handleLogout = () => {
+
+  localStorage.removeItem("token"); 
+  router.push('/'); // Redirect to the homepage
+};
+
+
+
   return (
     <>
    
-      
+   <button
+        onClick={handleLogout}
+        className="absolute top-[50px] right-5 px-6 py-3 bg-blue-500 text-white rounded-lg shadow-lg hover:bg-blue-600 focus:outline-none"
+      >
+        Logout
+      </button>
     
 
       <div className="mt-20 p-5">

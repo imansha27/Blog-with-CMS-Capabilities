@@ -65,7 +65,7 @@ const CreatePost = () => {
     <>
       <Header />
       
-      <div className="max-w-4xl mx-auto p-8 bg-teal-100 shadow-lg rounded-lg">
+      <div className="max-w-4xl mx-auto p-8 bg-slate-200 shadow-lg rounded-lg">
         <h1 className="text-3xl font-semibold text-center mb-6">Create a New Post</h1>
 
         <form onSubmit={handleSave}>
@@ -96,16 +96,21 @@ const CreatePost = () => {
           </div>
 
           <div className="flex justify-between">
+          <button type="button" onClick={handleGoBack} className="px-6 py-3 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500">
+              Go Back
+            </button>
             <button type="submit" className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
               Save
             </button>
-            <button type="button" onClick={handleGoBack} className="px-6 py-3 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500">
-              Go Back
-            </button>
+            
           </div>
         </form>
       </div>
-
+ &nbsp;
+ &nbsp;
+ &nbsp;
+ &nbsp;
+ &nbsp;
       <Footer />
     </>
   );

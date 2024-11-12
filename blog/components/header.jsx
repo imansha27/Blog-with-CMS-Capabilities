@@ -10,7 +10,9 @@ export const Header = () => {
     const router = useRouter();
 
     const handleNavigation = (path) => {
-        router.push(path);  // Use push to navigate to a different page
+
+
+        router.push(path);
     };
 
     return (
@@ -19,24 +21,28 @@ export const Header = () => {
                 {/* <Image src={images.logo} width={180} alt="logo" className='w-[130px] sm:w-auto'></Image> */}
                 <div className="flex-grow"></div>
                 <div className="flex space-x-10 text-rose-800 ml-auto">
-                    <span 
+                    <span
                         className="text-lg font-semibold cursor-pointer"
                         onClick={() => handleNavigation('/user/blogpage')}
                     >
                         BLOG
                     </span>
-                    <span 
+                    <span
                         className="text-lg font-semibold cursor-pointer"
                         onClick={() => handleNavigation('/user/dashboard')}
                     >
                         DASHBOARD
                     </span>
-                    <span 
+                    <span
                         className="text-lg font-semibold cursor-pointer"
-                        onClick={() => handleNavigation('/')}
+                        onClick={() => {
+                            localStorage.removeItem("token"); // Remove the token
+                            handleNavigation('/'); // Navigate to the homepage
+                        }}
                     >
                         LOGOUT
                     </span>
+
                 </div>
             </div>
         </div>

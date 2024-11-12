@@ -60,7 +60,8 @@ export const getPost = async () => {
             posts.authorId,
             users.name AS authorName
         FROM posts
-        JOIN users ON posts.authorId = users.idWHERE posts.status = "pending" OR posts.status = "rejected"
+        JOIN users ON posts.authorId = users.id 
+        WHERE posts.status = "approved" 
         ORDER BY posts.created_at DESC
     `);
 
@@ -93,17 +94,18 @@ export const AgetPost = async () => {
 export const usergetPost = async (userId) => {
     const db = await connectdata();
     const posts = await db.all(`
-      SELECT 
-        posts.id,
-        posts.title,
-        posts.content,
-        posts.status,
-        posts.authorId,
-        users.name AS authorName
-      FROM posts
-      JOIN users ON posts.authorId = users.id
-      WHERE posts.authorId = ?
-      ORDER BY posts.created_at DESC
+    SELECT 
+    posts.id,
+    posts.title,
+    posts.content,
+    posts.status,
+    posts.authorId,
+    users.name AS authorName
+FROM posts
+JOIN users ON posts.authorId = users.id
+WHERE posts.authorId = ? 
+  AND (posts.status = "pending" OR posts.status = "rejected")
+ORDER BY posts.created_at DESC;
     `, [userId]);
 
     return posts;

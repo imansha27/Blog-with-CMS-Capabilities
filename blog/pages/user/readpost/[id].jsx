@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import '../../app/globals.css';
-import { Header } from "../../components/Header";
-import { Footer } from "../../components/Footer";
+import '../../../app/globals.css';
+import { Header } from "../../../components/Header";
+import { Footer } from "../../../components/Footer";
 
 const ReadPost = () => {
   const [post, setPost] = useState(null);
@@ -41,20 +41,22 @@ const ReadPost = () => {
 
   return (
     <>
-      <Header />
-      <div className="container mx-auto px-4 py-8">
-        {post ? (
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">{post.title}</h2>
-            <p className="text-gray-600 mb-6">{post.content}</p>
-            <span className="text-sm text-gray-500">By: {post.authorName}</span>
-          </div>
-        ) : (
-          <p>Loading...</p>
-        )}
-      </div>
-      <Footer />
-    </>
+    <Header />
+    <div className="container mx-auto px-4 py-8 min-h-screen flex flex-col">
+      {post ? (
+        <div className="bg-white p-8 rounded-lg shadow-xl max-w-3xl mx-auto">
+          <h2 className="text-4xl font-semibold text-center text-gray-800 mb-6">{post.title}</h2>
+          <p className="text-lg text-gray-700 mb-5 leading-relaxed">{post.content}</p>
+          <span className="text-sm text-gray-500 block text-right">By: {post.authorName}</span>
+        </div>
+      ) : (
+        <p className="text-center text-gray-600">Loading...</p>
+      )}
+    </div>
+
+    <Footer />
+  </>
+  
   );
 };
 

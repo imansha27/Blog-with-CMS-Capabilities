@@ -6,8 +6,9 @@ const Post = ({ post }) => {
 
   const navigateToPost = () => {
     // Navigate to the ReadPost page with the post ID
-    router.push(`/readpost/${post.id}`);
+    router.push(`/user/readpost/${post.id}`);
   };
+
 
   return (
     <div className="max-w-sm w-full bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 ease-in-out">
@@ -24,7 +25,7 @@ const Post = ({ post }) => {
         </div>
       
         <button
-          onClick={navigateToPost}
+         onClick={() => navigateToPost(post.id)} 
           className=" bg-slate-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-all duration-300"
         
         >

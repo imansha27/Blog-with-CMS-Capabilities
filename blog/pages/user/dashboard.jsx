@@ -11,6 +11,7 @@ const Dashboard = () => {
   // Function to navigate to createpost page
   const navigateToCreatePost = () => {
     router.push('/user/createpost');
+    
   };
 
   // Fetch user posts based on userId
