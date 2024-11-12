@@ -26,8 +26,9 @@ export default function SignUp() {
       });
       const data = await res.json();
 
-      if (data.error) {
-        alert(data.error);
+      if (!data.success) {
+        alert(data.message); 
+
       } else {
         // Redirect user to the login page after signup
         alert("Registered Successfully");

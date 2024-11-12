@@ -23,13 +23,19 @@ export const usersignup = async (name, email, role = 'user') => {
     try {
       const existinguser = await db.get(`SELECT * FROM users WHERE email=?`,[email]);
     if(existinguser){
-        throw new Error("Email already exists");
+        return ({
+            success: false,
+            message: "Email Already exsists!"
+        });
     }
     const result = await db.run(
         `INSERT INTO users (name, email, role) VALUES (?, ?, ?)`,
         [name, email, role] 
     );
-    return result.lastID;
+    return {
+        success: true,
+        userId: result.lastID,
+    };
 
     } 
     
